@@ -11,3 +11,8 @@
 /.idea/inspectionProfiles/profiles_settings.xml
 /.idea/vcs.xml
 /.idea
+/todolist/frontend/public/logo192.png
+/todolist/frontend/public/logo512.png
+/todolist/frontend/node_modules/*
+/node_modules/*
+/node_modules/
