@@ -1,0 +1,13 @@
+/todolist/todolist/__init__.py
+/todolist/.env
+/todolist/db.sqlite3
+/todolist/__init__.py
+/.idea/.gitignore
+/todolist/todouser/migrations/__init__.py
+/todolist/todouser/__init__.py
+/.idea/gb_todo.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/vcs.xml
+/.idea
