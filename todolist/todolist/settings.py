@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'todouser',
+    'todoapp',
 
     #build-in
     'django.contrib.admin',
