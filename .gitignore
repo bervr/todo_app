@@ -1,7 +1,7 @@
 /todolist/todolist/__init__.py
 /todolist/.env
 /todolist/db.sqlite3
-/todolist/__init__.py
+__init__.py
 /.idea/.gitignore
 /todolist/todouser/migrations/__init__.py
 /todolist/todouser/__init__.py
@@ -16,3 +16,4 @@
 /todolist/frontend/node_modules/*
 /node_modules/*
 /node_modules/
+/todolist/frontend/public/favicon.ico
