@@ -12,6 +12,8 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     project_owner = serializers.ReadOnlyField(source='project_owner.username')
     # project_group = serializers.ReadOnlyField(source='project_team_user.username')
+    project_group = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Project
         fields = '__all__'
