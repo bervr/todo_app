@@ -16,17 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from todouser.views import TodoUserViewset
+from todouser.views import TodoUserViewSet
+# from todouser.views import TodoUserView
 from todoapp.views import TodoItemViewset, ProjectViewset
 
 router = DefaultRouter()
-router.register('todousers', TodoUserViewset)
+router.register('todousers', TodoUserViewSet)
 router.register('projects', ProjectViewset)
 router.register('todoitems', TodoItemViewset)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('todousrs/<int:pk>{None}', TodoUserView.as_view()),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
 ]
