@@ -66,7 +66,7 @@ axios.get('http://127.0.0.1:8000/api/todoitems/').then(response =>{
       return (
         <div>
              <HashRouter>
-                 <Menu/>
+                 <Menu />
 
                      <Routes>
                         <Route exact path ='/' element={<UserList users={this.state.users} />} />
@@ -77,7 +77,7 @@ axios.get('http://127.0.0.1:8000/api/todoitems/').then(response =>{
                      </Routes>
 
             </HashRouter>
-            <Footer/>
+            <Footer />
         </div>
         )
       }

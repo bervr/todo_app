@@ -7,7 +7,7 @@ const ProjectItem =({project}) =>{
         <td>{project.projectName }</td>
         <td>{project.repoLink}</td>
         <td>{project.projectOwner}</td>
-        <td>{project.projectGroup}</td>
+        <td>{project.projectGroup.join(', ')}</td>
     </tr>
 
     )
@@ -26,7 +26,7 @@ const Projects =({projects}) => {
     </tr>
     </thead>
     <tbody>
-    {projects.map((project) => <ProjectItem project = {project}/>)}
+    {projects.map((project) => <ProjectItem project = {project} />)}
     </tbody>
     </table>
 
