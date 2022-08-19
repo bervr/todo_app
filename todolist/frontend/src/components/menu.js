@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, Router } from "react-router-dom";
 
 
 const Menu = () => {
@@ -9,17 +10,20 @@ const Menu = () => {
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
+          <nav>
         <ul class="navbar-nav">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Users<span class="sr-only">(current)</span></a>
+            <Link to="/" class="nav-link">Users<span class="sr-only"></span></Link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Neares Todo</a>
+            <Link to="todo" class="nav-link">To do</Link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Global Todos</a>
+            <Link to="projects" class="nav-link" >Projects</Link>
           </li>
         </ul>
+          </nav>
+
       </div>
     </nav>
     )
