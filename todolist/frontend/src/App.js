@@ -6,7 +6,9 @@ import Footer from './components/footer'
 import Projects from './components/projects'
 import axios from 'axios'
 import TodoItems from "./components/todoitems";
-import {HashRouter, Route, Navigate, useLocation, Routes,} from 'react-router-dom'
+import { Route, Navigate, useLocation, Routes, BrowserRouter,} from 'react-router-dom'
+import ProjectList from "./components/projectDetail";
+import TodoList from "./components/todoByProject";
 
 
 function getDataFromApi(url){
@@ -65,19 +67,18 @@ axios.get('http://127.0.0.1:8000/api/todoitems/').then(response =>{
     render(){
       return (
         <div>
-             <HashRouter>
+             <BrowserRouter>
                  <Menu />
-
                      <Routes>
                         <Route exact path ='/' element={<UserList users={this.state.users} />} />
                         <Route exact path='projects' element={<Projects projects={this.state.projects} />} />
                         <Route exact path='todo' element={<TodoItems todoitems={this.state.todoitems} />} />
                         <Route exact path="/authors" element={<Navigate to="/projects" replace />} />
+                        <Route path="/project/:id" element={<ProjectList items={this.state.projects} />} />
+                        <Route path="/projectTodo/:projectName" element={<TodoList items={this.state.todoitems} />} />
                         <Route path='*' element={<PageNotFound />} />
-
                      </Routes>
-
-            </HashRouter>
+            </BrowserRouter>
             <Footer />
         </div>
         )
