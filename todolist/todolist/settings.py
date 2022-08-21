@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'todoapp',
     'django_filters',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
 
     #build-in
     'django.contrib.admin',
@@ -164,6 +165,7 @@ REST_FRAMEWORK = {
     'rest_framework.authentication.BasicAuthentication',
     'rest_framework.authentication.SessionAuthentication',
     'rest_framework.authentication.TokenAuthentication',
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 
 
