@@ -15,7 +15,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     project_owner = serializers.ReadOnlyField(source='project_owner.username')
     project_group = serializers.SlugRelatedField(many=True, read_only=True, slug_field='username')
-    # todo тоже интересно бы разобрать как сделать красивое отображение  и чтобы  BrowsableAPI не ломалось
+
     class Meta:
         model = Project
         fields = '__all__'
