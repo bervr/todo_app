@@ -18,6 +18,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from todouser.views import TodoUserViewSet
 # from todouser.views import TodoUserView
+from rest_framework.authtoken import views
 from todoapp.views import TodoItemViewset, ProjectViewset
 
 router = DefaultRouter()
@@ -31,4 +32,6 @@ urlpatterns = [
     # path('todousrs/<int:pk>{None}', TodoUserView.as_view()),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
+    path('api-token-auth/', views.obtain_auth_token),
+
 ]
