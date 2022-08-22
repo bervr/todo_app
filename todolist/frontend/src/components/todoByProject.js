@@ -18,7 +18,10 @@ const TodoItem =({todoitem}) =>{
 
 const TodoList = ({items}) => {
 let { projectName } = useParams();
-let filtered_items = items.filter(item => item.itemProject == projectName)
+console.log(projectName)
+console.log(items)
+let filteredItems = items.filter(item => item.itemProjectName == projectName)
+console.log(filteredItems)
 return (
     <table className="table table-striped">
         <thead>
@@ -31,7 +34,7 @@ return (
             </tr>
         </thead>
         <tbody>
-            {filtered_items.map((item) => <TodoItem todoitem={item} />)}
+            {filteredItems.map((item) => <TodoItem todoitem={item} />)}
         </tbody>
     </table>
 )
