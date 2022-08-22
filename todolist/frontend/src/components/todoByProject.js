@@ -18,10 +18,7 @@ const TodoItem =({todoitem}) =>{
 
 const TodoList = ({items}) => {
 let { projectName } = useParams();
-console.log(projectName)
-console.log(items)
 let filteredItems = items.filter(item => item.itemProjectName == projectName)
-console.log(filteredItems)
 return (
     <table className="table table-striped">
         <thead>
