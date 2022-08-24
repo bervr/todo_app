@@ -11,9 +11,7 @@ import ProjectList from "./components/projectDetail";
 import TodoList from "./components/todoByProject";
 
 
-function getDataFromApi(url){
-   return axios.get(url).then(response => response.data.results).catch(error =>console.log(error))
-}
+const api = "http://127.0.0.1:8000/api/"
 
 function PageNotFound(){
   let location = useLocation();
@@ -25,6 +23,16 @@ function PageNotFound(){
   );
 }
 
+
+async function makeRequest(url) {
+    let endPoint = new URL(url, api).href
+    const config = {
+        method: 'get',
+        url: endPoint
+    }
+    let res = await axios(config)
+    return res;
+}
 
 
 class App extends React.Component {
@@ -39,30 +47,17 @@ class App extends React.Component {
 
 
 
+loadData(){
+    makeRequest('todousers').then(res => {this.setState({'users':res.data.results})}).catch(error =>console.log(error))
+    makeRequest('projects').then(res => {this.setState({'projects':res.data.results})}).catch(error =>console.log(error))
+    makeRequest('todoitems').then(res => {this.setState({'todoitems':res.data.results})}).catch(error =>console.log(error))
+}
+
 
 componentDidMount() {
-        // this.setState({'users': getDataFromApi('http://127.0.0.1:8000/api/todousers/')})
 
-axios.get('http://127.0.0.1:8000/api/todousers/').then(response =>{
-        this.setState(
-        {'users':response.data.results}
-        )
-       }
-    ).catch(error =>console.log(error))
+this.loadData()
 
-axios.get('http://127.0.0.1:8000/api/projects/').then(response =>{
-        this.setState(
-        {'projects':response.data.results}
-        )
-       }
-    ).catch(error =>console.log(error))
-
-axios.get('http://127.0.0.1:8000/api/todoitems/').then(response =>{
-        this.setState(
-        {'todoitems':response.data.results}
-        )
-       }
-    ).catch(error =>console.log(error))
 }
     render(){
       return (
