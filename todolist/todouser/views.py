@@ -1,5 +1,5 @@
 import rest_framework
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, mixins, permissions
 from todouser.models import TodoUser
 from todouser.serializers import TodoUserSerializer
 
@@ -11,6 +11,7 @@ from todouser.serializers import TodoUserSerializer
 class TodoUserViewSet(viewsets.ModelViewSet):
     queryset = TodoUser.objects.all()
     serializer_class = TodoUserSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 

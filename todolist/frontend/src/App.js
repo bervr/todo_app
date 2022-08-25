@@ -6,7 +6,7 @@ import Footer from './components/footer'
 import Projects from './components/projects'
 import axios from 'axios'
 import TodoItems from "./components/todoitems";
-import { Route, Navigate, useLocation, Routes, BrowserRouter,} from 'react-router-dom'
+import {Route, Navigate, useLocation, Routes, BrowserRouter, Link, Router,} from 'react-router-dom'
 import ProjectList from "./components/projectDetail";
 import TodoList from "./components/todoByProject";
 import LoginForm from "./components/auth";
@@ -33,11 +33,12 @@ function getUrl(url, api){
     return endPoint
 }
 
-async function makeRequest(url, api) {
+async function makeRequest(url, api, headers) {
 
     const config = {
         method: 'get',
-        url: getUrl(url, api)
+        url: getUrl(url, api),
+        headers: headers
     }
 
     let res = await axios(config)
@@ -59,7 +60,9 @@ class App extends React.Component {
 set_token(token) {
     const cookies = new Cookies()
     cookies.set('token', token)
-    this.setState({'token': token})
+    this.setState({'token': token},
+        ()=>this.loadData())
+
     }
 is_authenticated() {
     return this.state.token != ''
@@ -70,38 +73,44 @@ logout() {
 get_token_from_storage() {
     const cookies = new Cookies()
     const token = cookies.get('token')
-    this.setState({'token': token})
+    // console.log('token ' + token)
+    this.setState({'token': token},
+        ()=>this.loadData())
 }
 
+get_headers() {
+    let headers = {'Content-Type': 'application/json'}
+    if (this.is_authenticated()) {headers['Authorization'] = 'Token ' + this.state.token}
+    return headers
+}
 
 
 get_token(username, password) {
     axios.post(getUrl('api-token-auth/', apiRoot), {username: username, password: password})
         .then(response => {this.set_token(response.data['token'])})
         .catch(error => alert('Неверный логин или пароль'))
-
-
 }
 
-
 loadData(){
-
-    makeRequest('todousers/', apiPoint).then(res => {this.setState({'users':res.data.results})}).catch(error =>console.log(error))
-    makeRequest('projects/', apiPoint).then(res => {this.setState({'projects':res.data.results})}).catch(error =>console.log(error))
-    makeRequest('todoitems/', apiPoint).then(res => {this.setState({'todoitems':res.data.results})}).catch(error =>console.log(error))
+    const headers = this.get_headers()
+    makeRequest('todousers/', apiPoint, headers).then(res => {this.setState({'users':res.data.results})}).catch(error =>console.log(error))
+    makeRequest('projects/', apiPoint, headers).then(res => {this.setState({'projects':res.data.results})}).catch(error =>console.log(error))
+    makeRequest('todoitems/', apiPoint, headers).then(res => {this.setState({'todoitems':res.data.results})}).catch(error =>console.log(error))
 }
 
 
 componentDidMount() {
-
+this.get_token_from_storage()
 this.loadData()
 
 }
     render(){
       return (
         <div>
+            {/*<div> <button onClick={()=>this.logout()}>LLLLLL</button> </div>*/}
              <BrowserRouter>
-                 <Menu />
+                 {this.is_authenticated() ? <button onClick={()=>this.logout()}>LLLLLL</button> : <Link to='/login'>Login</Link>}
+                 <Menu parentMethod={this.is_authenticated} parentMethod2={this.logout} />
                      <Routes>
                         <Route exact path ='/' element={<UserList users={this.state.users} />} />
                         <Route exact path='projects' element={<Projects projects={this.state.projects} />} />
