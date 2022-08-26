@@ -3,8 +3,7 @@ import { Link, } from "react-router-dom";
 
 const Menu = (auth, logout) => {
     let login_button = ''
-    // const authData = auth
-    // authStatus = auth['isLogin']
+
 
     if (auth.auth.isLogin) {
     login_button = <button className="btn btn-outline-success my-2 my-sm-0" onClick={()=>auth.logout()}>Hello, {auth.auth.username} Logout</button>
@@ -12,12 +11,7 @@ const Menu = (auth, logout) => {
     else {
       login_button = <Link to='/login' className="btn btn-outline-success my-2 my-sm-0">Login</Link>
     }
-    // console.log(auth)
-    // console.log(auth.auth.username)
-    console.log(auth.auth.isLogin)
-    // console.log(authData.isLogin)
-    // console.log(authData.isLogin)
-    // console.log(login_button)
+
 
     return (
         <nav class="navbar navbar-expand-lg navbar-light bg-light">

@@ -15,7 +15,7 @@ import Cookies from "universal-cookie";
 
 const apiRoot = "http://127.0.0.1:8000"
 const apiPoint = "http://127.0.0.1:8000/api/"
-// const apiPoint = getUrl("api", apiRoot)
+
 
 function PageNotFound(){
   let location = useLocation();
@@ -118,10 +118,9 @@ this.get_token_from_storage()
 
 }
     render(){
-        console.log(this.isAuthenticated())
+
       return (
         <div>
-            {/*<div> <button onClick={()=>this.logout()}>LLLLLL</button> </div>*/}
              <BrowserRouter>
                  <Menu auth={this.state.auth} logout={() => this.logout()} />
                      <Routes>
