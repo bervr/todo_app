@@ -1,18 +1,25 @@
 import React from 'react';
-import { Link, Router } from "react-router-dom";
+import { Link, } from "react-router-dom";
 
+const Menu = (auth, logout) => {
+    let login_button = ''
+    // const authData = auth
+    // authStatus = auth['isLogin']
 
-class Menu extends React.Component {
-    constructor(props) {
-      super(props)
+    if (auth.auth.isLogin) {
+    login_button = <button className="btn btn-outline-success my-2 my-sm-0" onClick={()=>auth.logout()}>Hello, {auth.auth.username} Logout</button>
     }
-// const Menu = () => {
+    else {
+      login_button = <Link to='/login' className="btn btn-outline-success my-2 my-sm-0">Login</Link>
+    }
+    // console.log(auth)
+    // console.log(auth.auth.username)
+    console.log(auth.auth.isLogin)
+    // console.log(authData.isLogin)
+    // console.log(authData.isLogin)
+    // console.log(login_button)
 
-  render() {
-      // (() => this.props.is_authenticated) ? console.log('login success!') : console.log(this)
-      // console.log(this.props.is_authenticated)
     return (
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="#">To Do LLC</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -35,10 +42,7 @@ class Menu extends React.Component {
                   <Link to="authors" class="nav-link">About Us</Link>
                 </li>
                 <li class="nav-item">
-                   <Link to="login" class="nav-link">Login</Link>
-                </li>
-                  <li class="nav-item">
-                 <button  type="button" class="btn btn-primary btn-block mb-4" onClick={()=>this.props.logout}>Logoff</button>
+                      {login_button}
                 </li>
               </ul>
             </nav>
@@ -46,7 +50,7 @@ class Menu extends React.Component {
           </div>
         </nav>
     )
-  }
+
 }
 
 export default Menu;
