@@ -9,7 +9,7 @@ from todouser.serializers import TodoUserSerializer
 #     serializer_class = TodoUserSerializer
 
 class TodoUserViewSet(viewsets.ModelViewSet):
-    queryset = TodoUser.objects.all()
+    queryset = TodoUser.objects.all().order_by('-id')
     serializer_class = TodoUserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
