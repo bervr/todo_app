@@ -31,9 +31,6 @@ class TodoItemViewset(viewsets.ModelViewSet):
         item.save()
         serializer = TodoItemSerializer(item)
         return Response(serializer.data)
-    # todo вот тут непонятно как сделать чтобы после "удаления" т.е. смены статуса кнопка delete была недоступна
-    # пока приходит только переопределить еще и retrieve и если todoitem закрыт то как-то использовать другой view,
-    # но не придумал как. на этом мысль обрывается, было бы интерено разобрать такой вариант.
 
 
 
@@ -44,3 +41,6 @@ class ProjectViewset(viewsets.ModelViewSet):
     pagination_class = ProjectLimitOffsetPagination
     # filterset_fields = ['project_name']
     filterset_class = ProjectFilter
+
+    def return_test_data(self):
+        return ('Ok! Well done!')
