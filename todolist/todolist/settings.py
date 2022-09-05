@@ -145,7 +145,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'todouser.TodoUser'
 
 GRAPHENE = {
-    "SCHEMA": "schema.schema.schema"
+    "SCHEMA": "schema.schema"
 }
 
 REST_FRAMEWORK = {
