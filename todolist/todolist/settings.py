@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'drf_yasg',
-
+    'drf_yasg',  # required for serving swagger ui's css/js files
+    "graphene_django",   # Required for GraphiQL
 
 
     #build-in
@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',   # required for serving swagger ui's css/js files
+    'django.contrib.staticfiles',
+
 
 
 ]
@@ -143,6 +144,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'todouser.TodoUser'
 
+GRAPHENE = {
+    "SCHEMA": "schema.schema.schema"
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100,
@@ -173,9 +178,5 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_VERSIONING_CLASS':
     'rest_framework.versioning.QueryParameterVersioning',
-
-
-
-
 
     }

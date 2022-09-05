@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from graphene_django.views import GraphQLView
 from rest_framework.routers import DefaultRouter
 from todouser.views import TodoUserViewSet
 # from todouser.views import TodoUserView
@@ -61,7 +62,9 @@ urlpatterns = [
     path('openapi', schema_view.without_ui(cache_timeout=0), name='openapi-schema'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('redoc-star/', TemplateView.as_view(template_name='redoc.html', extra_context={'schema_url': 'openapi-schema'})
-         , name='redoc')
+    path('redoc-star/', TemplateView.as_view(template_name='redoc.html',
+                                             extra_context={'schema_url': 'openapi-schema'}), name='redoc'),
+    path("graphql/", GraphQLView.as_view(graphiql=True)),
+
 
 ]
