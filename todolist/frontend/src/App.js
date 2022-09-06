@@ -32,9 +32,9 @@ function getUrl(url, api){
     return endPoint
 }
 
-async function makeRequest(url, api, headers) {
+async function makeRequest(url, api, headers, method) {
     const config = {
-        method: 'get',
+        method: method,
         url: getUrl(url, api),
         headers: headers
     }
@@ -97,18 +97,28 @@ get_token(username, password) {
         .catch(error => alert('Неверный логин или пароль'))
 }
 
-logonButton(){
-        if (this.isAuthenticated()) {return <button onClick={()=>this.logout()}>LLLLLL</button> }
-        else{ return <Link to='/login'>Login</Link>}
+deleteProject(id) {
+    const headers = this.get_headers()
+    makeRequest(`projects/${id}`, apiPoint, headers, 'delete')
+    .then(response => {
+    this.setState({projects: this.state.projects.filter((item)=>item.id !==
+    id)})
+    }).catch(error => console.log(error))
     }
 
 
 
 loadData(){
     const headers = this.get_headers()
-    makeRequest('todousers/', apiPoint, headers).then(res => {this.setState({'users':res.data.results})}).catch(error =>{console.log(error); this.setState({books: []})})
-    makeRequest('projects/', apiPoint, headers).then(res => {this.setState({'projects':res.data.results})}).catch(error =>console.log(error))
-    makeRequest('todoitems/', apiPoint, headers).then(res => {this.setState({'todoitems':res.data.results})}).catch(error =>console.log(error))
+    makeRequest('todousers/', apiPoint, headers, 'get').
+        then(res => {this.setState({'users':res.data.results})}).
+        catch(error =>{console.log(error); this.setState({books: []})})
+
+    makeRequest('projects/', apiPoint, headers, 'get').
+        then(res => {this.setState({'projects':res.data.results})}).catch(error =>console.log(error))
+
+    makeRequest('todoitems/', apiPoint, headers, 'get').
+        then(res => {this.setState({'todoitems':res.data.results})}).catch(error =>console.log(error))
 }
 
 
@@ -125,11 +135,11 @@ this.get_token_from_storage()
                  <Menu auth={this.state.auth} logout={() => this.logout()} />
                      <Routes>
                         <Route exact path ='/' element={<UserList users={this.state.users} />} />
-                        <Route exact path='projects' element={<Projects projects={this.state.projects} />} />
+                        <Route exact path='projects' element={<Projects projects={this.state.projects} deleteProject={(id)=>this.deleteProject(id)}/>} />
                         <Route exact path='todo' element={<TodoItems todoitems={this.state.todoitems} />} />
                         <Route exact path="/authors" element={<Navigate to="/projects" replace />} />
                         <Route exact path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
-                        <Route path="/project/:id" element={<ProjectList items={this.state.projects} />} />
+                        <Route path="/project/:id" element={<ProjectList items={this.state.projects}  deleteProject={(id)=>this.deleteProject(id)} />} />
                         <Route path="/projectTodo/:projectName" element={<TodoList items={this.state.todoitems} />} />
                         <Route path='*' element={<PageNotFound />} />
                      </Routes>
