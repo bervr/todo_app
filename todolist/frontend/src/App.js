@@ -11,6 +11,7 @@ import ProjectList from "./components/projectDetail";
 import TodoList from "./components/todoByProject";
 import LoginForm from "./components/auth";
 import Cookies from "universal-cookie";
+import ProjectForm from "./components/projectForm";
 
 
 const apiRoot = "http://127.0.0.1:8000"
@@ -32,11 +33,12 @@ function getUrl(url, api){
     return endPoint
 }
 
-async function makeRequest(url, api, headers, method) {
+async function makeRequest(url, api, headers, method, data={}) {
     const config = {
         method: method,
         url: getUrl(url, api),
-        headers: headers
+        headers: headers,
+        data: data,
     }
 
     let res = await axios(config)
@@ -83,13 +85,22 @@ get_token_from_storage() {
     this.loadData()
     }
 
+get_owner() {
+    if (this.state.auth.isLogin) {
+        const username = this.state.auth[username]
+        const owner = this.state.users.filter((item)=>item.username ===
+    username)
+        return owner.id
+    return 0
+
+    }
+}
 
 get_headers() {
     let headers = {'Content-Type': 'application/json'}
     if (this.isAuthenticated()) {headers['Authorization'] = 'Token ' + this.state.token}
     return headers
 }
-
 
 get_token(username, password) {
     axios.post(getUrl('api-token-auth/', apiRoot), {username: username, password: password})
@@ -103,8 +114,21 @@ deleteProject(id) {
     .then(response => {
     this.setState({projects: this.state.projects.filter((item)=>item.id !==
     id)})
-    }).catch(error => console.log(error))
+    }).catch(error => {
+        this.setState({projects:[]})
+        console.log(error)})
     }
+
+createProject(projectName, repoLink, projectGroup, projectOwner) {
+    const headers = this.get_headers()
+    const data = {projectName:projectName, repoLink:repoLink, projectGroup:projectGroup, projectOwner:15}
+    makeRequest(`projects/`, apiPoint, headers, 'post', data)
+        .then(response => {
+            this.loadData()})
+        .catch(error => {
+            this.setState({projects:[]})
+            console.log(error)}
+            )}
 
 
 
@@ -112,7 +136,7 @@ loadData(){
     const headers = this.get_headers()
     makeRequest('todousers/', apiPoint, headers, 'get').
         then(res => {this.setState({'users':res.data.results})}).
-        catch(error =>{console.log(error); this.setState({books: []})})
+        catch(error =>{console.log(error); this.setState({users: []})})
 
     makeRequest('projects/', apiPoint, headers, 'get').
         then(res => {this.setState({'projects':res.data.results})}).catch(error =>console.log(error))
@@ -140,7 +164,9 @@ this.get_token_from_storage()
                         <Route exact path="/authors" element={<Navigate to="/projects" replace />} />
                         <Route exact path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
                         <Route path="/project/:id" element={<ProjectList items={this.state.projects}  deleteProject={(id)=>this.deleteProject(id)} />} />
-                        <Route path="/projectTodo/:projectName" element={<TodoList items={this.state.todoitems} />} />
+                        <Route exact path='/project/create' element={<ProjectForm users={this.state.users}
+                            createProject={(projectName, repoLink, projectGroup)=> this.createProject(projectName, repoLink, projectGroup)}/>}  />
+                         <Route path="/projectTodo/:projectName" element={<TodoList items={this.state.todoitems} />} />
                         <Route path='*' element={<PageNotFound />} />
                      </Routes>
             </BrowserRouter>

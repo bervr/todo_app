@@ -21,6 +21,7 @@ const ProjectItem =({project, deleteProject}) =>{
 
 const Projects =({projects, deleteProject}) => {
     return(
+    <div>
     <table class="table table-striped">
     <thead>
     <tr>
@@ -36,6 +37,10 @@ const Projects =({projects, deleteProject}) => {
     {projects.map((project) => <ProjectItem project = {project} deleteProject = {deleteProject} />)}
     </tbody>
     </table>
+    <Link to='/project/create'>Create new project</Link>
+    </div>
+
+
 
     )
 
