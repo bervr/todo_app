@@ -10,7 +10,7 @@ const ProjectItem =({project, deleteProject}) =>{
         <td><Link to={`/project/${project.id}`}>{project.id}</Link></td>
         <td>{project.projectName }</td>
         <td>{project.repoLink}</td>
-        <td>{project.projectOwner}</td>
+        <td>{project.projectOwnerName}</td>
         <td>{project.projectGroup.join(', ')}</td>
         <td><button onClick={()=>deleteProject(project.id)} type='button'>Delete project</button> </td>
     </tr>
@@ -30,7 +30,7 @@ const Projects =({projects, deleteProject}) => {
     <th scope="col">Repo link</th>
     <th scope="col">Project owner</th>
     <th scope="col">Project group</th>
-    <th scope="col"></th>
+    <th scope="col">#</th>
     </tr>
     </thead>
     <tbody>

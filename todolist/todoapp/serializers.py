@@ -14,9 +14,9 @@ class TodoItemSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
 
-    project_owner = serializers.ReadOnlyField(source='project_owner.username')
+    project_owner_name = serializers.ReadOnlyField(source='project_owner.username')
     # project_owner = TodoUserSerializer()
-    project_group = serializers.SlugRelatedField(many=True, read_only=True, slug_field='username')
+    # project_group = serializers.SlugRelatedField(many=True, read_only=True, slug_field='username')
 
     class Meta:
         model = Project

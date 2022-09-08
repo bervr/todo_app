@@ -4,7 +4,7 @@ import React from 'react'
 export default class ProjectForm extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {projectName: '', projectOwner: 0, projectGroup: [], repoLink: '', users:[]}
+        this.state = {projectName: "", projectOwner: 0, projectGroup: [], repoLink: "", users:[]}
         }
     handleChange(event) {
         this.setState({
@@ -26,11 +26,12 @@ export default class ProjectForm extends React.Component {
 
     }
     handleSubmit(event) {
+        event.preventDefault()
         this.props.createProject(this.state.projectName, this.state.repoLink, this.state.projectGroup,)
         // console.log(this.state.projectName)
         // console.log(this.state.repoLink)
         // console.log(this.state.projectGroup)
-        event.preventDefault()
+
 
         }
 render() {

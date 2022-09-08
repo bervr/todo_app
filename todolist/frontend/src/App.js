@@ -38,11 +38,12 @@ async function makeRequest(url, api, headers, method, data={}) {
         method: method,
         url: getUrl(url, api),
         headers: headers,
-        // data:data,
+        data: data
+
+
     }
     let res = await axios(config)
-    // if (method = 'post'){
-    // }
+
     return res;
 }
 
@@ -78,8 +79,6 @@ async get_token_from_storage() {
     const cookies = new Cookies()
     const token = cookies.get('token')
     const username = cookies.get('username')
-    console.log('token ' + token)
-    console.log('user ' + username)
     await this.setState({'token': token})
     if ((username != "") & (username != null)) {
             this.setState({'auth': {'username': username, 'isLogin': true}})
@@ -89,10 +88,10 @@ async get_token_from_storage() {
 
 get_owner() {
     if (this.state.auth.isLogin) {
-        const username = this.state.auth[username]
+        const username = this.state.auth.username
         const owner = this.state.users.filter((item)=>item.username ===
     username)
-        return owner.id
+        return owner
     return 0
 
     }
@@ -125,7 +124,10 @@ createProject(projectName, repoLink, projectGroup,) {
     const headers = this.get_headers()
     const projectOwner = this.get_owner()
     console.log(projectOwner)
-    const data = {projectName:projectName, repoLink:repoLink, projectGroup:projectGroup, projectOwner:projectOwner}
+    console.log(projectName)
+    console.log(projectGroup)
+    const data = {"projectName":projectName, "repoLink":repoLink, "projectGroup":projectGroup, "projectOwner":projectOwner[0].id}
+    console.log(data)
     makeRequest(`projects/`, apiPoint, headers, 'post', data)
         .then(response => {
             this.loadData()})
