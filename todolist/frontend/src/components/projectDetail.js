@@ -21,7 +21,7 @@ const ProjectList = ({items, deleteProject}) => {
 let { id } = useParams();
 let filtered_items = items.filter(item => item.id == id)
 return (
-<table class="table table-striped">
+<table className="table table-striped">
 <tr>
 <th scope="col">ID</th>
 <th scope="col">NAME</th>

@@ -38,10 +38,11 @@ async function makeRequest(url, api, headers, method, data={}) {
         method: method,
         url: getUrl(url, api),
         headers: headers,
-        data: data,
+        // data:data,
     }
-
     let res = await axios(config)
+    // if (method = 'post'){
+    // }
     return res;
 }
 
@@ -73,12 +74,13 @@ logout() {
     this.setState({'auth': {'username': '', 'isLogin': false}})
     }
 
-get_token_from_storage() {
+async get_token_from_storage() {
     const cookies = new Cookies()
     const token = cookies.get('token')
     const username = cookies.get('username')
-    // console.log('token ' + token)
-    this.setState({'token': token})
+    console.log('token ' + token)
+    console.log('user ' + username)
+    await this.setState({'token': token})
     if ((username != "") & (username != null)) {
             this.setState({'auth': {'username': username, 'isLogin': true}})
         }
@@ -119,9 +121,11 @@ deleteProject(id) {
         console.log(error)})
     }
 
-createProject(projectName, repoLink, projectGroup, projectOwner) {
+createProject(projectName, repoLink, projectGroup,) {
     const headers = this.get_headers()
-    const data = {projectName:projectName, repoLink:repoLink, projectGroup:projectGroup, projectOwner:15}
+    const projectOwner = this.get_owner()
+    console.log(projectOwner)
+    const data = {projectName:projectName, repoLink:repoLink, projectGroup:projectGroup, projectOwner:projectOwner}
     makeRequest(`projects/`, apiPoint, headers, 'post', data)
         .then(response => {
             this.loadData()})
@@ -136,7 +140,9 @@ loadData(){
     const headers = this.get_headers()
     makeRequest('todousers/', apiPoint, headers, 'get').
         then(res => {this.setState({'users':res.data.results})}).
-        catch(error =>{console.log(error); this.setState({users: []})})
+        catch(error =>{console.log(error);
+            this.setState({users: []});
+        })
 
     makeRequest('projects/', apiPoint, headers, 'get').
         then(res => {this.setState({'projects':res.data.results})}).catch(error =>console.log(error))
@@ -148,6 +154,7 @@ loadData(){
 
 componentDidMount() {
 this.get_token_from_storage()
+
 // this.loadData()
 
 }

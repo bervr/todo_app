@@ -17,7 +17,7 @@ const TodoItem =({todoitem}) =>{
 
 const TodoItems =({todoitems}) => {
     return(
-    <table class="table table-striped">
+    <table className="table table-striped">
     <thead>
     <tr>
     <th scope="col">Item project</th>

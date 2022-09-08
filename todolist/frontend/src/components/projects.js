@@ -22,7 +22,7 @@ const ProjectItem =({project, deleteProject}) =>{
 const Projects =({projects, deleteProject}) => {
     return(
     <div>
-    <table class="table table-striped">
+    <table className="table table-striped">
     <thead>
     <tr>
     <th scope="col">details</th>

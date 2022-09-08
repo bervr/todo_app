@@ -37,18 +37,18 @@ render() {
 return (<div>
     <form onSubmit={(event)=> this.handleSubmit(event)}>
     <div className="form-group">
-    <label for="projectName">name</label>
+    <label htmlFor="projectName">name</label>
     <input type="text" className="form-control" name="projectName"  placeholder="project name here"
     value={this.state.projectName} onChange={(event)=>this.handleChange(event)} />
     </div>
     <div className="form-group">
-        <label for="repoLink">repo url</label>
+        <label htmlFor="repoLink">repo url</label>
     <input type="url" className="form-control" name="repoLink" placeholder="link to project repository"
     value={this.state.repoLink} onChange={(event)=>this.handleChange(event)} />
     </div>
 
     <div className="form-group">
-        <label for="projectGroup">project group</label>
+        <label htmlFor="projectGroup">project group</label>
         <select name="projectGroup" multiple onChange={(event) => this.handleProjectChange(event)}>
             {this.props.users.map((item)=> <option value={item.id}>{item.username}</option> )}
         </select>
