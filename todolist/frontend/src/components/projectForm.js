@@ -28,9 +28,6 @@ export default class ProjectForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault()
         this.props.createProject(this.state.projectName, this.state.repoLink, this.state.projectGroup,)
-        // console.log(this.state.projectName)
-        // console.log(this.state.repoLink)
-        // console.log(this.state.projectGroup)
 
 
         }
@@ -51,15 +48,11 @@ return (<div>
     <div className="form-group">
         <label htmlFor="projectGroup">project group</label>
         <select name="projectGroup" multiple onChange={(event) => this.handleProjectChange(event)}>
+            {/*{this.props.users.map((item)=> <option value={item.username}>{item.username}</option> )}*/}
             {this.props.users.map((item)=> <option value={item.id}>{item.username}</option> )}
         </select>
     </div>
 
-    {/*<div className="form-group">*/}
-    {/*    <label htmlFor="repoLink">repo url</label>*/}
-    {/*    <input type="url" className="form-control" name="repoLink"*/}
-    {/*           value={this.state.repoLink} onChange={(event) => this.handleChange(event)}/>*/}
-    {/*</div>*/}
     <input type="submit" className="btn btn-primary" value="Save" />
     </form>
     </div>

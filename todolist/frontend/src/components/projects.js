@@ -3,7 +3,7 @@ import { Link} from 'react-router-dom'
 
 
 
-const ProjectItem =({project, deleteProject}) =>{
+const ProjectItem =({project, users, deleteProject}) =>{
     return(
     <tr>
 
@@ -11,7 +11,7 @@ const ProjectItem =({project, deleteProject}) =>{
         <td>{project.projectName }</td>
         <td>{project.repoLink}</td>
         <td>{project.projectOwnerName}</td>
-        <td>{project.projectGroup.join(', ')}</td>
+        <td>{project.projectGroup.map((item) => (users.filter((user)=> user.id === item)[0].username)).join(', ')} </td>
         <td><button onClick={()=>deleteProject(project.id)} type='button'>Delete project</button> </td>
     </tr>
 
@@ -19,7 +19,7 @@ const ProjectItem =({project, deleteProject}) =>{
 
 }
 
-const Projects =({projects, deleteProject}) => {
+const Projects =({projects, users, deleteProject}) => {
     return(
     <div>
     <table className="table table-striped">
@@ -34,7 +34,7 @@ const Projects =({projects, deleteProject}) => {
     </tr>
     </thead>
     <tbody>
-    {projects.map((project) => <ProjectItem project = {project} deleteProject = {deleteProject} />)}
+    {projects.map((project) => <ProjectItem project = {project}  users={users}  deleteProject = {deleteProject} />)}
     </tbody>
     </table>
     <Link to='/project/create'>Create new project</Link>

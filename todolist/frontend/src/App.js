@@ -6,12 +6,13 @@ import Footer from './components/footer'
 import Projects from './components/projects'
 import axios from 'axios'
 import TodoItems from "./components/todoitems";
-import {Route, Navigate, useLocation, Routes, BrowserRouter, Link,} from 'react-router-dom'
+import {Route, Navigate, useLocation, Routes, BrowserRouter} from 'react-router-dom'
 import ProjectList from "./components/projectDetail";
 import TodoList from "./components/todoByProject";
 import LoginForm from "./components/auth";
 import Cookies from "universal-cookie";
 import ProjectForm from "./components/projectForm";
+import * as PropTypes from "prop-types";
 
 
 const apiRoot = "http://127.0.0.1:8000"
@@ -46,6 +47,12 @@ async function makeRequest(url, api, headers, method, data={}) {
 
     return res;
 }
+
+function Redirect(props) {
+    return null;
+}
+
+Redirect.propTypes = {to: PropTypes.string};
 
 class App extends React.Component {
     constructor(props){
@@ -123,14 +130,12 @@ deleteProject(id) {
 createProject(projectName, repoLink, projectGroup,) {
     const headers = this.get_headers()
     const projectOwner = this.get_owner()
-    console.log(projectOwner)
-    console.log(projectName)
-    console.log(projectGroup)
     const data = {"projectName":projectName, "repoLink":repoLink, "projectGroup":projectGroup, "projectOwner":projectOwner[0].id}
-    console.log(data)
     makeRequest(`projects/`, apiPoint, headers, 'post', data)
         .then(response => {
-            this.loadData()})
+            this.loadData()
+            return(<Navigate to='/' replace />)
+        })
         .catch(error => {
             this.setState({projects:[]})
             console.log(error)}
@@ -151,13 +156,13 @@ loadData(){
 
     makeRequest('todoitems/', apiPoint, headers, 'get').
         then(res => {this.setState({'todoitems':res.data.results})}).catch(error =>console.log(error))
+    return;
 }
 
 
 componentDidMount() {
 this.get_token_from_storage()
 
-// this.loadData()
 
 }
     render(){
@@ -168,7 +173,7 @@ this.get_token_from_storage()
                  <Menu auth={this.state.auth} logout={() => this.logout()} />
                      <Routes>
                         <Route exact path ='/' element={<UserList users={this.state.users} />} />
-                        <Route exact path='projects' element={<Projects projects={this.state.projects} deleteProject={(id)=>this.deleteProject(id)}/>} />
+                        <Route exact path='projects' element={<Projects projects={this.state.projects} users={this.state.users} deleteProject={(id)=>this.deleteProject(id)}/>} />
                         <Route exact path='todo' element={<TodoItems todoitems={this.state.todoitems} />} />
                         <Route exact path="/authors" element={<Navigate to="/projects" replace />} />
                         <Route exact path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
