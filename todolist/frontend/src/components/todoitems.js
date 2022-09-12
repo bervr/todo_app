@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const TodoItem =({todoitem}) =>{
+const TodoItem =({todoitem, deleteTodoItem }) =>{
     return(
     <tr>
         <td>{todoitem.itemProject}</td>
@@ -9,13 +9,14 @@ const TodoItem =({todoitem}) =>{
         <td>{todoitem.note}</td>
         <td>{todoitem.todoStatus}</td>
         <td>{todoitem.itemOwner}</td>
+        <td><button onClick={()=>deleteTodoItem(todoitem.id)} type='button'>Delete note</button></td>
     </tr>
 
     )
 
 }
 
-const TodoItems =({todoitems}) => {
+const TodoItems =({todoitems, deleteTodoItem}) => {
     return(
     <table className="table table-striped">
     <thead>
@@ -25,10 +26,11 @@ const TodoItems =({todoitems}) => {
     <th scope="col">Need to do</th>
     <th scope="col">Status</th>
     <th scope="col">Owner</th>
+    <th scope="col">#</th>
     </tr>
     </thead>
     <tbody>
-    {todoitems.map((todoitem) => <TodoItem todoitem = {todoitem}/>)}
+    {todoitems.map((todoitem) => <TodoItem todoitem = {todoitem} deleteTodoItem={deleteTodoItem}/>)}
     </tbody>
     </table>
 

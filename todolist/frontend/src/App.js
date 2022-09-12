@@ -127,6 +127,18 @@ deleteProject(id) {
         console.log(error)})
     }
 
+
+deleteTodoItem(id) {
+    const headers = this.get_headers()
+    makeRequest(`todoitems/${id}`, apiPoint, headers, 'delete')
+    .then(response => {
+    this.setState({todoitems: this.state.todoitems.filter((item)=>item.id !==
+    id)})
+    }).catch(error => {
+        this.setState({todoitems:[]})
+        console.log(error)})
+    }
+
 createProject(projectName, repoLink, projectGroup,) {
     const headers = this.get_headers()
     const projectOwner = this.get_owner()
@@ -140,8 +152,6 @@ createProject(projectName, repoLink, projectGroup,) {
             this.setState({projects:[]})
             console.log(error)}
             )}
-
-
 
 loadData(){
     const headers = this.get_headers()
@@ -174,13 +184,14 @@ this.get_token_from_storage()
                      <Routes>
                         <Route exact path ='/' element={<UserList users={this.state.users} />} />
                         <Route exact path='projects' element={<Projects projects={this.state.projects} users={this.state.users} deleteProject={(id)=>this.deleteProject(id)}/>} />
-                        <Route exact path='todo' element={<TodoItems todoitems={this.state.todoitems} />} />
+                        <Route exact path='todo' element={<TodoItems todoitems={this.state.todoitems} deleteTodoItem={(id)=>this.deleteTodoItem(id)} />} />
                         <Route exact path="/authors" element={<Navigate to="/projects" replace />} />
                         <Route exact path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
                         <Route path="/project/:id" element={<ProjectList items={this.state.projects}  deleteProject={(id)=>this.deleteProject(id)} />} />
+                        {/*<Route path="/todoitems/:id" element={<TodoItems items={this.state.todoitems}  deleteTodoItem={(id)=>this.deleteTodoItem(id)} />} />*/}
                         <Route exact path='/project/create' element={<ProjectForm users={this.state.users}
                             createProject={(projectName, repoLink, projectGroup)=> this.createProject(projectName, repoLink, projectGroup)}/>}  />
-                         <Route path="/projectTodo/:projectName" element={<TodoList items={this.state.todoitems} />} />
+                         <Route path="/projectTodo/:projectName" element={<TodoList items={this.state.todoitems} deleteTodoItem={(id)=>this.deleteTodoItem(id)}/>} />
                         <Route path='*' element={<PageNotFound />} />
                      </Routes>
             </BrowserRouter>
