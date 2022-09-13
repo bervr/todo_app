@@ -6,13 +6,14 @@ import Footer from './components/footer'
 import Projects from './components/projects'
 import axios from 'axios'
 import TodoItems from "./components/todoitems";
-import {Route, Navigate, useLocation, Routes, BrowserRouter} from 'react-router-dom'
+import {Route, Navigate, useLocation, Routes, BrowserRouter, useParams, useNavigate} from 'react-router-dom'
 import ProjectList from "./components/projectDetail";
 import TodoList from "./components/todoByProject";
 import LoginForm from "./components/auth";
 import Cookies from "universal-cookie";
 import ProjectForm from "./components/projectForm";
 import * as PropTypes from "prop-types";
+import TodoItemForm from "./components/todoItemForm";
 
 
 const apiRoot = "http://127.0.0.1:8000"
@@ -27,6 +28,11 @@ function PageNotFound(){
       <h1>Странно, но по адресу '{location.pathname}' ничего нет</h1>
     </div>
   );
+}
+
+function GetParams(){
+     let location = useLocation();
+     return location.projectId
 }
 
 function getUrl(url, api){
@@ -52,6 +58,7 @@ function Redirect(props) {
     return null;
 }
 
+
 Redirect.propTypes = {to: PropTypes.string};
 
 class App extends React.Component {
@@ -62,7 +69,7 @@ class App extends React.Component {
         'projects':[],
         'todoitems':[],
         'token': '',
-         'auth': {'username': '', 'isLogin': false},
+        'auth': {'username': '', 'isLogin': false},
         }
     }
 
@@ -146,10 +153,22 @@ createProject(projectName, repoLink, projectGroup,) {
     makeRequest(`projects/`, apiPoint, headers, 'post', data)
         .then(response => {
             this.loadData()
-            return(<Navigate to='/' replace />)
         })
         .catch(error => {
             this.setState({projects:[]})
+            console.log(error)}
+            )}
+
+createTodoItem(projectId, note) {
+    const headers = this.get_headers()
+    const itemOwner = this.get_owner()
+    const data = {"itemProject":projectId, "note":note, "itemOwner":itemOwner[0].id}
+    makeRequest(`todoitems/`, apiPoint, headers, 'post', data)
+        .then(response => {
+            this.loadData()
+        })
+        .catch(error => {
+            this.setState({todoitems:[]})
             console.log(error)}
             )}
 
@@ -167,6 +186,7 @@ loadData(){
     makeRequest('todoitems/', apiPoint, headers, 'get').
         then(res => {this.setState({'todoitems':res.data.results})}).catch(error =>console.log(error))
     return;
+
 }
 
 
@@ -176,6 +196,11 @@ this.get_token_from_storage()
 
 }
     render(){
+        // Обертка для передачи номера проекта в форму создания новой заметки:
+        const Wrapper = (props) => {
+        const params = useParams();
+        return <TodoItemForm createTodoItem={(projectId, note)=> this.createTodoItem(projectId, note)} {...{...props, match: {params}}}/>
+        }
 
       return (
         <div>
@@ -188,10 +213,10 @@ this.get_token_from_storage()
                         <Route exact path="/authors" element={<Navigate to="/projects" replace />} />
                         <Route exact path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
                         <Route path="/project/:id" element={<ProjectList items={this.state.projects}  deleteProject={(id)=>this.deleteProject(id)} />} />
-                        {/*<Route path="/todoitems/:id" element={<TodoItems items={this.state.todoitems}  deleteTodoItem={(id)=>this.deleteTodoItem(id)} />} />*/}
                         <Route exact path='/project/create' element={<ProjectForm users={this.state.users}
                             createProject={(projectName, repoLink, projectGroup)=> this.createProject(projectName, repoLink, projectGroup)}/>}  />
-                         <Route path="/projectTodo/:projectName" element={<TodoList items={this.state.todoitems} deleteTodoItem={(id)=>this.deleteTodoItem(id)}/>} />
+                         <Route exact path='/newitem/create/:projectId' element={<Wrapper />}/>
+                         <Route path="/projectTodo/:projectName" element={<TodoList items={this.state.todoitems} deleteTodoItem={(id)=>this.deleteTodoItem(id)} projects={this.state.projects}/>} />
                         <Route path='*' element={<PageNotFound />} />
                      </Routes>
             </BrowserRouter>

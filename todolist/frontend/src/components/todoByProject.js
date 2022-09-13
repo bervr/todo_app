@@ -9,7 +9,7 @@ const TodoItem =({todoitem, deleteTodoItem}) =>{
         <td>{todoitem.created}</td>
         <td>{todoitem.note}</td>
         <td>{todoitem.todoStatus}</td>
-        <td>{todoitem.itemOwner}</td>
+        <td>{todoitem.itemOwnerName}</td>
         <td><button onClick={()=>deleteTodoItem(todoitem.id)} type='button'>Delete note</button></td>
     </tr>
 
@@ -17,10 +17,13 @@ const TodoItem =({todoitem, deleteTodoItem}) =>{
 }
 
 
-const TodoList = ({items, deleteTodoItem}) => {
+const TodoList = ({items, deleteTodoItem, projects}) => {
 let { projectName } = useParams();
+let projectId = projects.filter(item =>item.projectName ===projectName)[0].id
+
 let filteredItems = items.filter(item => item.itemProjectName == projectName)
 return (
+    <div>
     <table className="table table-striped">
         <thead>
             <tr>
@@ -35,6 +38,10 @@ return (
             {filteredItems.map((item) => <TodoItem todoitem={item} deleteTodoItem ={deleteTodoItem}/>)}
         </tbody>
     </table>
+     <Link to={{pathname:`/newitem/create/${projectId}`,
+                projectId: projectId
+                }}>Create new item</Link>
+        </div>
 )
 }
 export default TodoList

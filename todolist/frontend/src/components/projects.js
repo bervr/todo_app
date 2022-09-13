@@ -8,7 +8,8 @@ const ProjectItem =({project, users, deleteProject}) =>{
     <tr>
 
         <td><Link to={`/project/${project.id}`}>{project.id}</Link></td>
-        <td>{project.projectName }</td>
+        <td><Link to={`/project/${project.id}`}>{project.projectName }</Link></td>
+        {/*<td>{project.projectName }</td>*/}
         <td>{project.repoLink}</td>
         <td>{project.projectOwnerName}</td>
         <td>{project.projectGroup.map((item) => (users.filter((user)=> user.id === item)[0].username)).join(', ')} </td>
