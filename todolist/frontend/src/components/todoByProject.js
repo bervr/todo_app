@@ -18,10 +18,11 @@ const TodoItem =({todoitem, deleteTodoItem}) =>{
 
 
 const TodoList = ({items, deleteTodoItem, projects}) => {
-let { projectName } = useParams();
-let projectId = projects.filter(item =>item.projectName ===projectName)[0].id
+let { projectId } = useParams();
+// let projectId =  (projects.filter(item =>item.projectName === projectName)[0].id)
+    // console.log(projectId)
 
-let filteredItems = items.filter(item => item.itemProjectName == projectName)
+let filteredItems = items.filter(item => item.itemProject == projectId)
 return (
     <div>
     <table className="table table-striped">

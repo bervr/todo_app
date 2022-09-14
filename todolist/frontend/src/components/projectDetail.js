@@ -11,7 +11,7 @@ return (
 <td>{item.projectName}</td>
 <td>{item.projectOwnerName}</td>
 <td>{item.repoLink}</td>
-<td><Link to={`/projectTodo/${item.projectName}`}>View tasks</Link></td>
+<td><Link to={`/projectTodo/${item.id}`}>View tasks</Link></td>
 <td><button onClick={()=>deleteProject(item.id)} type='button'>Delete project</button> </td>
 </tr>
 )}

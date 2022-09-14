@@ -16,6 +16,7 @@ import * as PropTypes from "prop-types";
 import TodoItemForm from "./components/todoItemForm";
 
 
+
 const apiRoot = "http://127.0.0.1:8000"
 const apiPoint = "http://127.0.0.1:8000/api/"
 
@@ -57,6 +58,7 @@ async function makeRequest(url, api, headers, method, data={}) {
 function Redirect(props) {
     return null;
 }
+
 
 
 Redirect.propTypes = {to: PropTypes.string};
@@ -134,7 +136,6 @@ deleteProject(id) {
         console.log(error)})
     }
 
-
 deleteTodoItem(id) {
     const headers = this.get_headers()
     makeRequest(`todoitems/${id}`, apiPoint, headers, 'delete')
@@ -166,6 +167,8 @@ createTodoItem(projectId, note) {
     makeRequest(`todoitems/`, apiPoint, headers, 'post', data)
         .then(response => {
             this.loadData()
+            return <Navigate replace to="/" />
+            // return <Navigate replace to="/" />
         })
         .catch(error => {
             this.setState({todoitems:[]})
@@ -195,11 +198,12 @@ this.get_token_from_storage()
 
 
 }
-    render(){
+render(){
         // Обертка для передачи номера проекта в форму создания новой заметки:
         const Wrapper = (props) => {
         const params = useParams();
-        return <TodoItemForm createTodoItem={(projectId, note)=> this.createTodoItem(projectId, note)} {...{...props, match: {params}}}/>
+        const backUrl = useNavigate()
+            return <TodoItemForm createTodoItem={(projectId, note)=> this.createTodoItem(projectId, note)} {...{...props, match: {params}, backUrl}}/>
         }
 
       return (
@@ -215,8 +219,9 @@ this.get_token_from_storage()
                         <Route path="/project/:id" element={<ProjectList items={this.state.projects}  deleteProject={(id)=>this.deleteProject(id)} />} />
                         <Route exact path='/project/create' element={<ProjectForm users={this.state.users}
                             createProject={(projectName, repoLink, projectGroup)=> this.createProject(projectName, repoLink, projectGroup)}/>}  />
+                         {/*<Route exact path='/newitem/create/:projectId' element={<Wrapper />}/>*/}
                          <Route exact path='/newitem/create/:projectId' element={<Wrapper />}/>
-                         <Route path="/projectTodo/:projectName" element={<TodoList items={this.state.todoitems} deleteTodoItem={(id)=>this.deleteTodoItem(id)} projects={this.state.projects}/>} />
+                         <Route path="/projectTodo/:projectId" element={<TodoList items={this.state.todoitems} deleteTodoItem={(id)=>this.deleteTodoItem(id)} projects={this.state.projects}/>} />
                         <Route path='*' element={<PageNotFound />} />
                      </Routes>
             </BrowserRouter>
