@@ -1,5 +1,5 @@
 /todolist/todolist/__init__.py
-/todolist/.env
+/.env
 /todolist/db.sqlite3
 __init__.py
 /.idea/.gitignore
@@ -17,3 +17,4 @@ __init__.py
 /node_modules/*
 /node_modules/
 /todolist/frontend/public/favicon.ico
+/.env

@@ -1,0 +1,30 @@
+version: '3.8'
+
+volumes:
+  data:
+    external: true
+
+services:
+  db:
+    image: postgres:13.1
+    privileged: true
+    container_name: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+  backend:
+    container_name: django
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
+
+#    command: bash -c "./wait-for-postgres.sh db && python manage.py migrate && python manage.py create_users && python manage.py runserver 0.0.0.0:8080"
+    command: bash -c "python manage.py migrate && python manage.py create_users && python manage.py runserver 0.0.0.0:8080"
+
+    depends_on:
+      - db
