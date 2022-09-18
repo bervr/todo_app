@@ -16,6 +16,7 @@ RUN pip3 install --upgrade pip
 COPY ./todolist/ ./
 
 RUN pip3 install -r requirements.txt
+RUN pip3 install gunicorn
 
 #COPY wait-for-postgres.sh .
 #RUN chmod +x wait-for-postgres.sh

@@ -6,7 +6,7 @@ from todouser.models import TodoUser
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        user = TodoUser.objects.get(username="django")
+        user = TodoUser.objects.filter(username="django").first()
         if not user:
             TodoUser.objects.create_superuser('django', 'django@1.local', '12345', first_name='great', last_name='admin')
             TodoUser.objects.create_user('test1', 't1@1.local', '1qwerty23', first_name='test1', last_name='first')
