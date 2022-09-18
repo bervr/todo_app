@@ -204,6 +204,12 @@ render(){
             return <TodoItemForm createTodoItem={(projectId, note)=> this.createTodoItem(projectId, note)} backurl={backUrl} {...{...props, match: {params}}}/>
         }
 
+        // Обертка для передачи  useNavigate в форму и создания нового проекта:
+        const ProjectWrapper = (props) => {
+        const backUrl = useNavigate()
+            return <ProjectForm users={this.state.users} createProject={(projectName, repoLink, projectGroup)=> this.createProject(projectName, repoLink, projectGroup)} backurl={backUrl} {...{...props}}/>
+        }
+
       return (
         <div>
              <BrowserRouter>
@@ -215,8 +221,7 @@ render(){
                         <Route exact path="/authors" element={<Navigate to="/projects" replace />} />
                         <Route exact path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
                         <Route path="/project/:id" element={<ProjectList items={this.state.projects}  deleteProject={(id)=>this.deleteProject(id)} />} />
-                        <Route exact path='/project/create' element={<ProjectForm users={this.state.users}
-                            createProject={(projectName, repoLink, projectGroup)=> this.createProject(projectName, repoLink, projectGroup)}/>}  />
+                        <Route exact path='/project/create' element={<ProjectWrapper/>}  />
                          {/*<Route exact path='/newitem/create/:projectId' element={<Wrapper />}/>*/}
                          <Route exact path='/newitem/create/:projectId' element={<Wrapper />}/>
                          <Route path="/projectTodo/:projectId" element={<TodoList items={this.state.todoitems} deleteTodoItem={(id)=>this.deleteTodoItem(id)} projects={this.state.projects}/>} />
