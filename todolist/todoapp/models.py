@@ -10,7 +10,7 @@ class Project(models.Model):
     project_name = models.CharField(_("project name"), max_length=64, unique=True)
     repo_link = models.URLField(_("repo link"), blank=True)
     project_owner = models.ForeignKey(TodoUser, related_name="project_owner", on_delete=models.CASCADE)
-    project_group = models.ManyToManyField(TodoUser,  related_name="project_team_user")
+    project_group = models.ManyToManyField(TodoUser,  related_name="project_user",)
     def __str__(self):
         return self.project_name
 
