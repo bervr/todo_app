@@ -16,10 +16,8 @@ import * as PropTypes from "prop-types";
 import TodoItemForm from "./components/todoItemForm";
 
 
-
 const apiRoot = "http://127.0.0.1:8000"
 const apiPoint = "http://127.0.0.1:8000/api/"
-
 
 function PageNotFound(){
   let location = useLocation();
@@ -31,10 +29,10 @@ function PageNotFound(){
   );
 }
 
-function GetParams(){
-     let location = useLocation();
-     return location.projectId
-}
+// function GetParams(){
+//      let location = useLocation();
+//      return location.projectId
+// }
 
 function getUrl(url, api){
     let endPoint = new URL(url, api).href
@@ -58,7 +56,6 @@ async function makeRequest(url, api, headers, method, data={}) {
 function Redirect(props) {
     return null;
 }
-
 
 
 Redirect.propTypes = {to: PropTypes.string};
@@ -167,8 +164,6 @@ createTodoItem(projectId, note) {
     makeRequest(`todoitems/`, apiPoint, headers, 'post', data)
         .then(response => {
             this.loadData()
-            return <Navigate replace to="/" />
-            // return <Navigate replace to="/" />
         })
         .catch(error => {
             this.setState({todoitems:[]})
@@ -199,11 +194,14 @@ this.get_token_from_storage()
 
 }
 render(){
+
+
+        //
         // Обертка для передачи номера проекта в форму создания новой заметки:
         const Wrapper = (props) => {
         const params = useParams();
         const backUrl = useNavigate()
-            return <TodoItemForm createTodoItem={(projectId, note)=> this.createTodoItem(projectId, note)} {...{...props, match: {params}, backUrl}}/>
+            return <TodoItemForm createTodoItem={(projectId, note)=> this.createTodoItem(projectId, note)} backurl={backUrl} {...{...props, match: {params}}}/>
         }
 
       return (
