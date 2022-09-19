@@ -29,11 +29,6 @@ function PageNotFound(){
   );
 }
 
-// function GetParams(){
-//      let location = useLocation();
-//      return location.projectId
-// }
-
 function getUrl(url, api){
     let endPoint = new URL(url, api).href
     return endPoint
