@@ -1,5 +1,5 @@
 import React from 'react';
-
+//список всех tod o
 
 const TodoItem =({todoitem, deleteTodoItem }) =>{
     return(

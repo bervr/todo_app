@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link} from 'react-router-dom'
-
+// список проектов
 
 
 const ProjectItem =({project, users, deleteProject}) =>{

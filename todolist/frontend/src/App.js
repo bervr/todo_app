@@ -20,6 +20,7 @@ const apiRoot = "http://127.0.0.1:8000"
 const apiPoint = "http://127.0.0.1:8000/api/"
 
 function PageNotFound(){
+    // переброс на 404 с некорректного адреса
   let location = useLocation();
 
   return (
@@ -30,11 +31,13 @@ function PageNotFound(){
 }
 
 function getUrl(url, api){
+    // получение URL из частей
     let endPoint = new URL(url, api).href
     return endPoint
 }
 
 async function makeRequest(url, api, headers, method, data={}) {
+    // запрос к API
     const config = {
         method: method,
         url: getUrl(url, api),
@@ -56,6 +59,7 @@ function Redirect(props) {
 Redirect.propTypes = {to: PropTypes.string};
 
 class App extends React.Component {
+    // основной класс приеложения
     constructor(props){
         super(props)
         this.state={
@@ -68,6 +72,7 @@ class App extends React.Component {
     }
 
 setToken(token, username) {
+        //записывает токен и пользователя в cookies
     const cookies = new Cookies()
     cookies.set('token', token)
     cookies.set('username', username)
@@ -79,11 +84,13 @@ isAuthenticated() {
     return this.state.token !== ''
 }
 logout() {
+        // сброс логона
     this.setToken('', '')
     this.setState({'auth': {'username': '', 'isLogin': false}})
     }
 
 async get_token_from_storage() {
+        // получение данных из cookies если они есть
     const cookies = new Cookies()
     const token = cookies.get('token')
     const username = cookies.get('username')
@@ -95,6 +102,7 @@ async get_token_from_storage() {
     }
 
 get_owner() {
+        // получение автора изменений
     if (this.state.auth.isLogin) {
         const username = this.state.auth.username
         const owner = this.state.users.filter((item)=>item.username ===
@@ -106,18 +114,21 @@ get_owner() {
 }
 
 get_headers() {
+        //составление заголовков запроса с авторизацией
     let headers = {'Content-Type': 'application/json'}
     if (this.isAuthenticated()) {headers['Authorization'] = 'Token ' + this.state.token}
     return headers
 }
 
 get_token(username, password) {
+        // запрос токена с сарвера
     axios.post(getUrl('api-token-auth/', apiRoot), {username: username, password: password})
         .then(response => {this.setToken(response.data['token'], username); this.setState({'auth': {'username': username, 'isLogin': true}})})
         .catch(error => alert('Неверный логин или пароль'))
 }
 
 deleteProject(id) {
+        // метод удаления проекта
     const headers = this.get_headers()
     makeRequest(`projects/${id}`, apiPoint, headers, 'delete')
     .then(response => {
@@ -129,6 +140,7 @@ deleteProject(id) {
     }
 
 deleteTodoItem(id) {
+        // метод удаления tod o, не удаляем, а меняет статус на закрытое
     const headers = this.get_headers()
     makeRequest(`todoitems/${id}`, apiPoint, headers, 'delete')
     .then(response => {
@@ -140,6 +152,7 @@ deleteTodoItem(id) {
     }
 
 createProject(projectName, repoLink, projectGroup,) {
+        // метод создание нового проекта
     const headers = this.get_headers()
     const projectOwner = this.get_owner()
     const data = {"projectName":projectName, "repoLink":repoLink, "projectGroup":projectGroup, "projectOwner":projectOwner[0].id}
@@ -153,6 +166,7 @@ createProject(projectName, repoLink, projectGroup,) {
             )}
 
 createTodoItem(projectId, note) {
+        // метод создания нового tod o
     const headers = this.get_headers()
     const itemOwner = this.get_owner()
     const data = {"itemProject":projectId, "note":note, "itemOwner":itemOwner[0].id}
@@ -166,7 +180,8 @@ createTodoItem(projectId, note) {
             )}
 
 loadData(){
-    const headers = this.get_headers()
+        // запрос данных с сервера
+        const headers = this.get_headers()
     makeRequest('todousers/', apiPoint, headers, 'get').
         then(res => {this.setState({'users':res.data.results})}).
         catch(error =>{console.log(error);
@@ -183,24 +198,20 @@ loadData(){
 }
 
 
-componentDidMount() {
+componentDidMount() {// инициализация страницы
+
 this.get_token_from_storage()
 
 
 }
-render(){
-
-
-        //
-        // Обертка для передачи номера проекта в форму создания новой заметки:
-        const Wrapper = (props) => {
+render(){ //отрисовка)
+        const Wrapper = (props) => {// Обертка для передачи номера проекта в форму создания новой заметки:
         const params = useParams();
         const backUrl = useNavigate()
             return <TodoItemForm createTodoItem={(projectId, note)=> this.createTodoItem(projectId, note)} backurl={backUrl} {...{...props, match: {params}}}/>
         }
 
-        // Обертка для передачи  useNavigate в форму и создания нового проекта:
-        const ProjectWrapper = (props) => {
+        const ProjectWrapper = (props) => {// Обертка для передачи  useNavigate в форму и создания нового проекта:
         const backUrl = useNavigate()
             return <ProjectForm users={this.state.users} createProject={(projectName, repoLink, projectGroup)=> this.createProject(projectName, repoLink, projectGroup)} backurl={backUrl} {...{...props}}/>
         }

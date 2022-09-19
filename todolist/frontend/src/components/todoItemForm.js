@@ -1,5 +1,5 @@
 import React from 'react'
-import {Navigate} from "react-router-dom";
+// форма создания нового tod o
 
 
 export default class TodoItemForm extends React.Component {
