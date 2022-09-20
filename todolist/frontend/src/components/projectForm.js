@@ -1,5 +1,5 @@
 import React from 'react'
-
+// форма создания нового проекта
 
 export default class ProjectForm extends React.Component {
     constructor(props) {
@@ -28,6 +28,7 @@ export default class ProjectForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault()
         this.props.createProject(this.state.projectName, this.state.repoLink, this.state.projectGroup,)
+        this.props.backurl(`/projects`)
 
 
         }

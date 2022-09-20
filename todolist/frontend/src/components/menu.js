@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, } from "react-router-dom";
-
+// компонент меню навигации
 const Menu = (auth, logout) => {
     let login_button = ''
 

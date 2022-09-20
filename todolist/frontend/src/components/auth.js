@@ -1,5 +1,5 @@
 import React from 'react'
-
+// компонент  для логина на стороне клиента
 class LoginForm extends React.Component {
     constructor(props) {
         super(props)

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Navigate} from "react-router-dom";
+// форма создания нового tod o
 
 
 export default class TodoItemForm extends React.Component {
@@ -17,6 +17,7 @@ export default class TodoItemForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault()
         this.props.createTodoItem(this.state.projectId, this.state.note)
+        this.props.backurl(`/projectTodo/${this.state.projectId}`)
 
 
 

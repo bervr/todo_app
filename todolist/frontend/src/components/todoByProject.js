@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams, Link } from 'react-router-dom'
-
+// компонент отрисовки всех tod o проекта
 
 const TodoItem =({todoitem, deleteTodoItem}) =>{
     return(

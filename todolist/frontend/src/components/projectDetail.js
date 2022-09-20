@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link, useParams} from 'react-router-dom'
-
+// компонент детализированого просмотра проекта
 
 const ProjectItem = ({item, deleteProject}) => {
 return (

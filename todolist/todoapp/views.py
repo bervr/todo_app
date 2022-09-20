@@ -17,10 +17,9 @@ class TodoItemLimitOffsetPagination(LimitOffsetPagination):
 
 
 class TodoItemViewset(viewsets.ModelViewSet):
-    queryset = TodoItem.objects.all()
+    queryset = TodoItem.objects.filter(todo_status='ACV')
     serializer_class = TodoItemSerializer
     pagination_class = TodoItemLimitOffsetPagination
-    # filterset_class = TodoFilter
     filterset_fields = ['item_project']
 
     def destroy(self, request, pk=None):
@@ -30,9 +29,6 @@ class TodoItemViewset(viewsets.ModelViewSet):
         item.save()
         serializer = TodoItemSerializer(item)
         return Response(serializer.data)
-
-
-
 
 class ProjectViewset(viewsets.ModelViewSet):
     queryset = Project.objects.all()
